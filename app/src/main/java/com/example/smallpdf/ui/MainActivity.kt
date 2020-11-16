@@ -11,7 +11,7 @@ import com.example.smallpdf.R
 import com.example.smallpdf.repository.GitRepository
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),LoginFragment.OnLoggingClickedListener {
+class MainActivity : AppCompatActivity(),LoginFragment.OnLoggingClickedListener,UserDetailsFragment.OnNextClickedListener {
 
 
 
@@ -27,6 +27,14 @@ class MainActivity : AppCompatActivity(),LoginFragment.OnLoggingClickedListener 
         val fm: FragmentManager = supportFragmentManager
         val ft: FragmentTransaction = fm.beginTransaction()
         ft.add(R.id.fragments_holder, UserDetailsFragment.newInstance(username), "your frame name")
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
+    override fun onNextClicked(username: String) {
+        val fm: FragmentManager = supportFragmentManager
+        val ft: FragmentTransaction = fm.beginTransaction()
+        ft.add(R.id.fragments_holder, RepoListFragment.newInstance(username), "repo list")
         ft.addToBackStack(null)
         ft.commit()
     }

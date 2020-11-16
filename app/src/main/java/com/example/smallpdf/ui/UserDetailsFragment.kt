@@ -1,5 +1,6 @@
 package com.example.smallpdf.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,14 +13,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.smallpdf.R
 import com.example.smallpdf.repository.GitRepository
+import com.example.smallpdf.util.Constants.Companion.ARG_USERNAME
 import com.example.smallpdf.util.Resource
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_user_details.*
 
-private const val ARG_USERNAME = "username"
 
 class UserDetailsFragment : Fragment() {
 
     private var username: String? = null
+
+    private var callback: OnNextClickedListener? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +39,15 @@ class UserDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_details, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        buttonNext.setOnClickListener {
+            username?.let { it1 -> callback?.onNextClicked(it1) }
+        }
     }
 
     companion object {
@@ -77,6 +90,25 @@ class UserDetailsFragment : Fragment() {
         })
 
         username?.let { viewModel.getUserDetails(it) }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            callback = context as OnNextClickedListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(
+                context.toString()
+                    .toString() + " must implement LogoutUser"
+            )
+        }
+    }
+
+    interface OnNextClickedListener {
+        fun onNextClicked(username: String)
     }
 
 
