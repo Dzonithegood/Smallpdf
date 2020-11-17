@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import com.example.smallpdf.R
 import com.example.smallpdf.repository.GitRepository
 import com.example.smallpdf.util.Constants.Companion.ARG_USERNAME
 import com.example.smallpdf.util.Resource
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_user_details.*
 
 
@@ -45,7 +43,7 @@ class UserDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        buttonNext.setOnClickListener {
+        buttonListOfRepositories.setOnClickListener {
             username?.let { it1 -> callback?.onNextClicked(it1) }
         }
     }
@@ -110,6 +108,4 @@ class UserDetailsFragment : Fragment() {
     interface OnNextClickedListener {
         fun onNextClicked(username: String)
     }
-
-
 }

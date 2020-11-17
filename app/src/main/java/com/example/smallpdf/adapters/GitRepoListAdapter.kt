@@ -17,7 +17,7 @@ class GitRepoListAdapter : RecyclerView.Adapter<GitRepoListAdapter.UserViewHolde
 
     private val list = ArrayList<UserReposItem>()
 
-    fun setList(list:ArrayList<UserReposItem>) {
+    fun setList(list: ArrayList<UserReposItem>) {
         this.list.addAll(list)
         notifyDataSetChanged()
     }
@@ -56,7 +56,7 @@ class GitRepoListAdapter : RecyclerView.Adapter<GitRepoListAdapter.UserViewHolde
         holder.itemView.apply {
 
             textViewRepoName.text = userReposItem.name
-
+            numberOfOpenIssues.text = userReposItem.openIssuesCount.toString()
         }
     }
 }
