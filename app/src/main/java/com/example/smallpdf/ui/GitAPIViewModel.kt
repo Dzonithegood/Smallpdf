@@ -21,9 +21,12 @@ class GitAPIViewModel(val gitRepository: GitRepository) : ViewModel() {
 
     var userReposResponse : UserRepos?=null
 
-//    init {
-//        getUserDetails(id)
-//    }
+
+    val userCommits: MutableLiveData<Resource<UserReposItem>> = MutableLiveData()
+
+    var userCommitsResponse : UserReposItem?=null
+
+
 
     fun getUserDetails(id:String) = viewModelScope.launch {
 
@@ -45,6 +48,16 @@ class GitAPIViewModel(val gitRepository: GitRepository) : ViewModel() {
 
     }
 
+    fun getUserCommits(id:String) = viewModelScope.launch {
+
+        userCommits.postValue(Resource.Loading())
+
+        val response =  gitRepository.getUserCommits(id)
+
+        userCommits.postValue(handleUserCommitResponse(response))
+
+    }
+
     private fun handleUserDetailsResponse(response : Response<UserDetails>) : Resource<UserDetails> {
 
         if (response.isSuccessful) {
@@ -60,6 +73,16 @@ class GitAPIViewModel(val gitRepository: GitRepository) : ViewModel() {
         if (response.isSuccessful) {
             response.body()?.let { UserReposItem ->
                 return Resource.Success(userReposResponse ?: UserReposItem)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun handleUserCommitResponse(response : Response<UserReposItem>) : Resource<UserReposItem> {
+
+        if (response.isSuccessful) {
+            response.body()?.let { UserReposItem ->
+                return Resource.Success(userCommitsResponse ?: UserReposItem)
             }
         }
         return Resource.Error(response.message())

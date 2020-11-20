@@ -23,6 +23,12 @@ interface GitAPI {
         userId: String
     ): Response<ArrayList<UserReposItem>>
 
+    @GET("users/{userID}/repos")
+    suspend fun getUserCommits(
+        @Path("userID")
+        iserId: String
+    ): Response<UserReposItem>
+
     @GET("users/octocat")
     suspend fun getUserDetails1(
 //        @Query("avatar")

@@ -10,4 +10,7 @@ suspend fun getUserDetails(userId:String) =
     suspend fun getUserRepos(userId: String) =
         RetrofitInstance.api.getUserRepos(userId)
 
+    suspend fun  getUserCommits(userId: String) =
+        RetrofitInstance.api.getUserCommits(userId)
+
 }

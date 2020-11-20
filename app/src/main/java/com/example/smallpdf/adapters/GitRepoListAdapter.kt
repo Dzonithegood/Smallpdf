@@ -2,18 +2,22 @@ package com.example.smallpdf.adapters
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smallpdf.R
 import com.example.smallpdf.models.UserDetails
 import com.example.smallpdf.models.UserReposItem
+import kotlinx.android.synthetic.main.fragment_commit_details.view.*
 import kotlinx.android.synthetic.main.repo_item.view.*
 
 class GitRepoListAdapter : RecyclerView.Adapter<GitRepoListAdapter.UserViewHolder>() {
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
 
     private val list = ArrayList<UserReposItem>()
 
@@ -55,8 +59,28 @@ class GitRepoListAdapter : RecyclerView.Adapter<GitRepoListAdapter.UserViewHolde
 
         holder.itemView.apply {
 
+//            Toast.makeText(holder.itemView.context, "itemclicked", Toast.LENGTH_SHORT).show()
             textViewRepoName.text = userReposItem.name
             numberOfOpenIssues.text = userReposItem.openIssuesCount.toString()
+
+            setOnClickListener{
+                listener?.onItemClicked(userReposItem)
+            }
+//                onItemClickListener?.let { it(userReposItem) }
+
         }
+    }
+
+//    private var onItemClickListener: ((UserReposItem) -> Unit)? = null
+
+    var listener: OnItemClicked2? = null
+
+//    fun setOnItemClickListener(listener: (UserReposItem) -> Unit) {
+//        onItemClickListener = listener
+//
+//    }
+
+    interface OnItemClicked2 {
+        fun onItemClicked(userReposItem: UserReposItem)
     }
 }
